@@ -19,7 +19,7 @@ endif
 
 # Since only newer (version >=13) toolchains supports the 'H' extension of the ISA, we fallback to `gc` for older ones.
 # This should not be a problem for an hypervisor/virtualization software.
-ARCH ?= $(shell if [ `$(CC) -dumpversion | cut -f1 -d.` -lt 13 ]; then echo rv64gc; else echo rv64gch; fi)
+ARCH = $(shell if [ `$(CC) -dumpversion | cut -f1 -d.` -lt 13 ]; then echo rv64gc; else echo rv64gch; fi)
 ABI ?= lp64
 
 CFLAGS  = -Wall -Wextra -march=$(ARCH) -mabi=$(ABI)
