@@ -5,7 +5,7 @@ confidential computing on RISC-V, similar to ARM TrustFirmware. The current RISC
 computing is defined in the RISC-V AP-TEE specification, also known as CoVE
 (**Co**nfidential **V**irtualization **E**xtension).
 
-Further details can be found in the documentation.
+Further details can be found in the [documentation] (https://granp4sso.github.io/shadowfax/).
 
 ### Goals
 The codename `shadowfax project` has the following goals:
@@ -14,7 +14,24 @@ The codename `shadowfax project` has the following goals:
 - Enable Supervisor Domain management using the MPT if available, or the PMP as a fallback.
 - Write the implementation in a memory-safe language (e.g., Rust).
 
+### OpenSBI integration
+Shadowfax is an *M-mode* firmware which uses [**opensbi**](https://github.com/riscv-software-src/opensbi) as
+static library. Shadowfax registers 3 SBI extensions described in the [CoVE specification](https://github.com/riscv-non-isa/riscv-ap-tee)
+which are:
+
+- SUPD: supervisor doamin extension to enumerate active supervisor domain and get capabilities information on them;
+- CoVE-H: cove host extension. It allows for **TVM** management for hosts;
+- CoVE-G: cove guest extension. It allows guest to use firmware services like remote attestation primitives;
+
+The CoVE specification also introduces the **CoVE-I** SBI extension. It allows to supplements CoVE-H with hardware-assisted
+interrupt virtualization using RISC-V **Advanced Interrupt Architecture**(*AIA*), if the platform supports it.
+For now, shadowfax **does not** implement this part of the specification.
+
 ## Environment setup
+
+The `scripts` directory contains utilities to help setup the shadowafax build environment. It also contains scripts
+that help building and running examples (ie. bare metal *S-mode* kernel or to launch Linux). More information [here](/scripts/README.md).
+
 All dependencies can be installed with the `scripts/setup.sh` script.
 
 ```sh
@@ -40,7 +57,7 @@ If your distribution is not supported by the script, you can install required de
 - a riscv64 toolchain: to compile source code and examples;
 - qemu (for riscv64): to run programs in an emulated machine;
 - dependencies to build the Linux Kernel;
-- rust with the riscv64gc target;
+- rust with the riscv64imac target;
 
 ### Docker setup
 For unsupported distributions or for users that want a consistent build environment,
