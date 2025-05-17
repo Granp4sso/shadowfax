@@ -9,10 +9,10 @@ mod cove_host_extension;
 mod supd_extension;
 mod types;
 
-pub use crate::cove::constants::*;
-pub use crate::cove::types::*;
+pub use constants::*;
+pub use types::*;
 
-pub fn init() {
+pub fn init(fdt_address: usize) {
     supd_extension::init();
-    cove_host_extension::init();
+    cove_host_extension::init(fdt_address);
 }
